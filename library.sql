@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 06, 2019 at 07:36 AM
+-- Generation Time: Mar 12, 2019 at 08:18 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.0
 
@@ -11,12 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `library`
@@ -35,15 +29,6 @@ CREATE TABLE `book` (
   `book_category_id` varchar(4) NOT NULL,
   `book_publishing` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `book`
---
-
-INSERT INTO `book` (`book_id`, `book_isbn`, `book_title`, `book_category_id`, `book_publishing`) VALUES
-(3, '9870136019701', 'คอมพิวเตอร์ศึกษา', '001', '2019-02-27'),
-(4, '9870136019702', 'ชีวศึกษา', '002', '2019-02-27'),
-(5, '9870136019708', 'เทคโนโลยีสารสนเทศ', '001', '2019-02-27');
 
 -- --------------------------------------------------------
 
@@ -83,14 +68,6 @@ CREATE TABLE `book_category` (
   `book_category_id` varchar(4) NOT NULL,
   `book_category_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `book_category`
---
-
-INSERT INTO `book_category` (`book_category_id`, `book_category_name`) VALUES
-('001', 'คอมพิวเตอร์'),
-('002', 'ชีววิทยา่');
 
 -- --------------------------------------------------------
 
@@ -163,12 +140,11 @@ CREATE TABLE `staff` (
   `prefix _id` tinyint(2) NOT NULL,
   `fname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
-  `gender` tinyint(1) NOT NULL,
   `dept_id` tinyint(2) NOT NULL,
   `tel` varchar(10) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `username` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL
+  `password` varchar(100) NOT NULL,
+  `datetime_stamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -180,7 +156,8 @@ CREATE TABLE `staff` (
 --
 ALTER TABLE `book`
   ADD PRIMARY KEY (`book_id`),
-  ADD KEY `book_category_id` (`book_category_id`);
+  ADD KEY `book_category_id` (`book_category_id`),
+  ADD KEY `book_isbn` (`book_isbn`);
 
 --
 -- Indexes for table `booking`
@@ -249,7 +226,7 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT for table `book`
 --
 ALTER TABLE `book`
-  MODIFY `book_id` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `book_id` smallint(6) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `booking`
@@ -339,7 +316,3 @@ ALTER TABLE `staff`
   ADD CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`prefix _id`) REFERENCES `prefix` (`prefix_id`),
   ADD CONSTRAINT `staff_ibfk_2` FOREIGN KEY (`dept_id`) REFERENCES `departments` (`dept_id`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
